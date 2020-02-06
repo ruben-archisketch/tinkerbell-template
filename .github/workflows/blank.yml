@@ -1,0 +1,27 @@
+name: CI
+
+on: 
+  push:
+    branches: 
+      - master
+  schedule:
+    - cron: '*/1 * * * *' 
+    
+
+jobs:
+  fetch:
+    
+    name: Fetch
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1.1.0
+        with:
+          node-version: 12.x
+      - name: create issue
+        run: |
+          npm ci
+          npm run fetch
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
